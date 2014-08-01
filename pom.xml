@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ====================================================================== -->
+    <!-- = P A R E N T   S E T T I N G S                                      = -->
+    <!-- ====================================================================== -->
+    <!--
+    <parent>
+        <groupId></groupId>
+        <artifactId></artifactId>
+        <version></version>
+    </parent>
+    -->
+
+    <!-- ====================================================================== -->
+    <!-- = A R T I F A C T   S E T T I N G S                                  = -->
+    <!-- ====================================================================== -->
+    <groupId>com.soabridge.breeze</groupId>
+    <artifactId>breeze</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <!-- ====================================================================== -->
+    <!-- = D E S C R I P T I O N   S E T T I N G S                            = -->
+    <!-- ====================================================================== -->
+    <name>Breeze</name>
+
+    <!-- ====================================================================== -->
+    <!-- = P R O P E R T Y   S E T T I N G S                                  = -->
+    <!-- ====================================================================== -->
+    <properties>
+        <!-- Maven Build Properties -->
+        <version.junit>4.8.2</version.junit>
+        <!-- Maven Runtime Properties -->
+        <downloadSources>true</downloadSources>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <!-- ====================================================================== -->
+    <!-- = D E P E N D E N C I Y   S E T T I N G S                            = -->
+    <!-- ====================================================================== -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- ====================================================================== -->
+    <!-- = B U I L D   L I F E - C Y C L E   S E T T I N G S                  = -->
+    <!-- ====================================================================== -->
+    <build>
+        <!-- P L U G I N S -->
+        <plugins>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
