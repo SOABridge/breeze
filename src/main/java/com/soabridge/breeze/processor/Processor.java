@@ -12,6 +12,6 @@ public interface Processor {
 
     void onSuccess(Message message);
 
-    Message process(Message message);
+    Message process(Message message) throws Throwable;
 
 }
