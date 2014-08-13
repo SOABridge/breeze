@@ -1,17 +1,17 @@
-package com.soabridge.breeze.processor.test;
+package org.soabridge.breeze.processor.test;
 
-import com.soabridge.breeze.messaging.Message;
-import com.soabridge.breeze.processor.Processor;
+import org.soabridge.breeze.messaging.Message;
+import org.soabridge.breeze.processor.Processor;
 
 /**
  * @author <a href="steffen.krause@soabridge.com">Steffen Krause</a>
  * @since 1.0
  */
-public class SuccessProcessor implements Processor {
+public class FailureProcessor implements Processor {
 
     private boolean success;
 
-    public SuccessProcessor() {
+    public FailureProcessor() {
     }
 
     @Override
@@ -26,8 +26,8 @@ public class SuccessProcessor implements Processor {
 
     @Override
     public Message process(Message message) throws Exception {
-        // Return the message simulating processing succeeded
-        return message;
+        // Throw Exception simulating processing failed
+        throw new Exception("This is a test Exception");
     }
 
     public boolean hasSuccess() {

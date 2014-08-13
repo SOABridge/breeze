@@ -1,4 +1,4 @@
-package com.soabridge.breeze.processor;
+package org.soabridge.breeze.processor;
 
 /**
  * @author <a href="steffen.krause@soabridge.com">Steffen Krause</a>

@@ -1,6 +1,6 @@
-package com.soabridge.breeze.processor;
+package org.soabridge.breeze.processor;
 
-import com.soabridge.breeze.messaging.Message;
+import org.soabridge.breeze.messaging.Message;
 
 /**
  * @author <a href="steffen.krause@soabridge.com">Steffen Krause</a>

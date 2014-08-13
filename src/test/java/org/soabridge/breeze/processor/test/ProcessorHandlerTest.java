@@ -1,10 +1,10 @@
-package com.soabridge.breeze.processor.test;
+package org.soabridge.breeze.processor.test;
 
-import com.soabridge.breeze.messaging.Message;
-import com.soabridge.breeze.processor.ProcessingException;
-import com.soabridge.breeze.processor.Processor;
-import com.soabridge.breeze.processor.ProcessorException;
-import com.soabridge.breeze.processor.ProcessorHandler;
+import org.soabridge.breeze.messaging.Message;
+import org.soabridge.breeze.processor.ProcessingException;
+import org.soabridge.breeze.processor.Processor;
+import org.soabridge.breeze.processor.ProcessorException;
+import org.soabridge.breeze.processor.ProcessorHandler;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

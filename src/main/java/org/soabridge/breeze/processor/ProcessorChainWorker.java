@@ -1,4 +1,4 @@
-package com.soabridge.breeze.processor;
+package org.soabridge.breeze.processor;
 
 import java.util.logging.Logger;
 
