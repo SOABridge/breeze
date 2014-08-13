@@ -17,7 +17,7 @@
     <!-- ====================================================================== -->
     <!-- = A R T I F A C T   S E T T I N G S                                  = -->
     <!-- ====================================================================== -->
-    <groupId>com.soabridge.breeze</groupId>
+    <groupId>org.soabridge.breeze</groupId>
     <artifactId>breeze</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
