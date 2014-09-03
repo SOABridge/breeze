@@ -6,59 +6,71 @@ package org.soabridge.breeze.messaging;
  * @since 1.0
  *
  */
-public class Header {
-
-    private String from;
-    private Data properties;
-    private String to;
+public class Header extends Data {
 
     /**
-     * Default constructor initializing properties of the header
+     * Default header constructor
      */
-    public Header()
+    public Header() { this(null, null); }
+
+    /**
+     * Default initializing properties of header source and destination
+     * @param source: where the message is from
+     * @param destination: where the message is been delivered to
+     */
+    public Header(String source, String destination)
     {
-        properties = new Data();
+        super();
+        setProperty(Property.Header.SOURCE.toString(), source);
+        setProperty(Property.Header.DESTINATION.toString(), destination);
     }
 
-    /**
-     * Where the message came from
-     * @return String : Unique identifier of where the message came from
-     */
-    public String getFrom() {
-        return from;
-    }
-
-    /**
-     * Sets where the message came from
-     * @param from : Where the message came from
-     */
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    /**
-     * Gets the header properties
-     * @return {@link Data} : Header properties of the header
-     */
-    public Data getProperties() {
-        return properties;
+    public Header(Header header)
+    {
+        super();
+        if (header != null)
+            this.properties.putAll(header.getProperties());
     }
 
     /**
      * Gets the destination of the message
-     * @return String : Unique identifier of where the message is heading to
+     * @return String : Unique identifier of where the message is been delivered to
      */
-    public String getTo() {
-        return to;
+    public String getDestination() {
+        return (String)getProperty(Property.Header.DESTINATION.toString());
     }
 
     /**
-     * Sets where the message is going to
-     * @param to : Where the message came to
+     * Gets the reference message id
+     * @return String : reference message id
      */
-    public void setTo(String to) {
-        this.to = to;
+    public String getReferenceMessageId() { return (String)getProperty(Property.Header.REFERENCE_MESSAGE_ID.toString()); }
+
+    /**
+     * Gets where the message came from
+     * @return String : Unique identifier of where the message came from
+     */
+    public String getSource() { return (String)getProperty(Property.Header.SOURCE.toString()); }
+
+
+
+    /**
+     * Sets where the message is been delivered to
+     * @param destination : Where the message is been delivered to
+     */
+    public void setDestination(String destination) {
+        setProperty(Property.Header.DESTINATION.toString(), destination);
     }
 
+    /**
+     * Sets the reference message id
+     * @param messageId : reference message id
+     */
+    public void setReferenceMessageId(String messageId) { setProperty(Property.Header.REFERENCE_MESSAGE_ID.toString(), messageId); }
 
+    /**
+     * Sets where the message came from
+     * @param source : Where the message came from
+     */
+    public void setSource(String source) { setProperty(Property.Header.SOURCE.toString(), source); }
 }

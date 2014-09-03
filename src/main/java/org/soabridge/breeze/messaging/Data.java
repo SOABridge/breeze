@@ -1,6 +1,8 @@
 package org.soabridge.breeze.messaging;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -9,10 +11,10 @@ import java.util.Map;
  * @since 1.0
  *
  */
-public class Data {
+public class Data implements Serializable {
 
 
-    private Map<String,Object> properties;
+    protected Map<String,Object> properties;
 
     /**
      * Default constructor initializing properties of the header
@@ -26,16 +28,8 @@ public class Data {
      * Gets the list of properties
      * @return Map : List of properties
      */
-    public Map getProperties() {
+    public Map<String,Object> getProperties() {
         return properties;
-    }
-
-    /**
-     * Sets the list of properties
-     * @param properties : List of properties
-     */
-    public void setProperties(Map<String,Object> properties) {
-        this.properties = properties;
     }
 
     /**
@@ -43,9 +37,15 @@ public class Data {
      * @param key : Name of the key used to store the property
      * @return Object : Value of property returned
      */
-    public Object getProperty(String key) {
-        return (properties.containsKey(key) ? properties.get(key) : null);
+    public <T> T getProperty(String key) {
+        return (properties.containsKey(key) ? (T)properties.get(key) : null);
     }
+
+    /**
+     * Removes property value
+     * @param key : Name of the key used to store the property
+     */
+    public void removeProperty(String key) { if (properties.containsKey(key)) properties.remove(key); }
 
     /**
      * Sets the property value

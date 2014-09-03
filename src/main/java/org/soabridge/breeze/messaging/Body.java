@@ -8,8 +8,18 @@ package org.soabridge.breeze.messaging;
  */
 public class Body extends Data {
 
-    //default key of where the property is stored
-    public final static String DEFAULT_PAYLOAD = "DEFAULT_PAYLOAD";
+    public Body()
+    {
+        super();
+    }
+
+    public Body(Body body)
+    {
+        this();
+        if (body != null)
+            this.properties.putAll(body.getProperties());
+    }
+
 
     /**
      * Gets the default payload of the message
@@ -17,7 +27,7 @@ public class Body extends Data {
      */
     public Object getPayload()
     {
-        return getProperties().get(DEFAULT_PAYLOAD);
+        return getProperty(Property.Body.PAYLOAD.toString());
     }
 
     /**
@@ -26,7 +36,7 @@ public class Body extends Data {
      */
     public void setPayload(Object payload)
     {
-        getProperties().put(DEFAULT_PAYLOAD, payload);
+        setProperty(Property.Body.PAYLOAD.toString(), payload);
     }
 
 }
