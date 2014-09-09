@@ -16,30 +16,35 @@ public class Message implements Serializable {
     private String id;
     private Header header;
     private Session session;
+    private MetaData metaData;
 
     /**
      * Default constructor initializing properties of the message
      */
     public Message()
     {
-        this(null,null, new DefaultActionPipelineConfiguration());
+        this(null,null, null, new DefaultActionPipelineConfiguration());
     }
 
     /**
      * Default constructor initializing properties of the message
      * @param header : message header information
+     * @param body : message body (payload) information
+     * @param metaData : message meta data information
      */
-    public Message(Header header, Body body)
+    public Message(Header header, Body body, MetaData metaData)
     {
-        this(header, body, new DefaultActionPipelineConfiguration());
+        this(header, body, metaData, new DefaultActionPipelineConfiguration());
     }
 
     /**
      * Construct with a referenced Message id
      * @param header : : message header information
+     * @param body : message body (payload) information
+     * @param metaData : message meta data information
      * @param actionPipelineConfiguration : action pipeline to execute
      */
-    public Message(Header header, Body body, ActionPipelineConfiguration actionPipelineConfiguration)
+    public Message(Header header, Body body, MetaData metaData, ActionPipelineConfiguration actionPipelineConfiguration)
     {
         //check to see if the phase configuration is null
         if(actionPipelineConfiguration == null)
@@ -53,6 +58,7 @@ public class Message implements Serializable {
         this.id = UUID.randomUUID().toString();
         this.body = new Body(body);
         this.header = new Header(header);
+        this.metaData = new MetaData(metaData);
         this.session = new Session();
 
         //sets the phase configuration of message
@@ -97,6 +103,13 @@ public class Message implements Serializable {
     }
 
     /**
+     * Gets property value from metadata of message
+     * @param property : name of property from meta data
+     * @return Object : Meta data properties of the message
+     */
+    public <T> T getMetaDataProperty(String property) { return this.metaData.getProperty(property); }
+
+    /**
      * Gets message payload
      * @return Object : gets message payload
      */
@@ -125,6 +138,7 @@ public class Message implements Serializable {
         switch (scope)
         {
             case HEADER: keys = this.header.getProperties().keySet(); break;
+            case METADATA: keys =  this.metaData.getProperties().keySet(); break;
             case SESSION: keys =  this.session.getProperties().keySet(); break;
             default: keys = this.body.getProperties().keySet(); break;
         }
@@ -162,6 +176,9 @@ public class Message implements Serializable {
             case HEADER:
                 this.header.getProperties().clear();
                 break;
+            case METADATA:
+                this.metaData.getProperties().clear();
+                break;
             case SESSION:
                 this.session.getProperties().clear();
                 break;
@@ -180,6 +197,9 @@ public class Message implements Serializable {
             switch (scope) {
                 case HEADER:
                     this.header.removeProperty(property);
+                    break;
+                case METADATA:
+                    this.metaData.removeProperty(property);
                     break;
                 case SESSION:
                     this.session.removeProperty(property);
@@ -204,18 +224,25 @@ public class Message implements Serializable {
     public void setDestination(String destination) { this.header.setDestination(destination); }
 
     /**
-     * Sets where the message payload
-     * @param payload : message payload
-     */
-    public void setPayload(String payload) { this.body.setPayload(payload); }
-
-
-    /**
      * Sets property value from header of message
      * @param property : name of property to set in header of message
      * @param value : value of property
      */
     public void setHeaderProperty(String property, Object value) { this.header.setProperty(property,value); }
+
+    /**
+     * Sets property value from meta data of message
+     * @param property : name of property to set in meta data of message
+     * @param value : value of property
+     */
+    public void setMetaData(String property, Object value) { this.metaData.setProperty(property,value); }
+
+    /**
+     * Sets where the message payload
+     * @param payload : message payload
+     */
+    public void setPayload(String payload) { this.body.setPayload(payload); }
+
 
     /**
      * Sets message reference id

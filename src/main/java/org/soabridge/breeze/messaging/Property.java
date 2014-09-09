@@ -34,6 +34,7 @@ public class Property {
     {
         BODY,
         HEADER,
+        METADATA,
         SESSION
     }
 
