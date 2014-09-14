@@ -1,11 +1,10 @@
 package org.soabridge.breeze.config;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
-import java.util.ArrayList;
 import java.util.Properties;
-
-import static java.lang.Class.*;
 
 
 /*
@@ -25,85 +24,107 @@ import static java.lang.Class.*;
 public class FileConfiguration implements Configuration {
 
 
-    public String preProcessors;
-    public String postProcessors;
+    public String preProcessors  = null;
+    public String postProcessors = null;
+    public File propertiesFile = null;
 
 
-
-
-    public void reload() throws IOException, FileSystemNotFoundException {
-       /*
-       * reload() method will reload the configuration properties from the
-       * properties file.  The file must be located in the application directory
-       * and the classes for pre/post-processors must also be in the same path
-       *
-       */
-
-        Properties properties = new Properties();
-        File file = new File("/home/geoff/Development/SOABridge.org/breeze/src/main/java/org/soabridge/breeze/config/breeze.properties");
-        properties.load(new FileInputStream(file));
-        String versionNumber = properties.getProperty("VersionNumber");
-        this.preProcessors = properties.getProperty("Pre-Processors");
-        String postProcessors = properties.getProperty("Post-Processors");
-        String hiveName = properties.getProperty("HiveName");
-
-
-        //assign the Pre-Processor string to the class variable that is holding them
-        this.preProcessors = preProcessors;
-        this.postProcessors = postProcessors;
-
-
+    protected File getPropertiesFile(String fileName){
+        this.propertiesFile = new File(fileName);
+        return propertiesFile;
     }
 
-    @Override
+
+
+      /*
+       * reload() method will reload the configuration properties from the
+       * properties file.  The file must be located in the application directory
+       * and the classes for pre/post-processors must also be in the same path  */
+
+    public void reload() throws IOException, FileSystemNotFoundException {
+
+        getPropertiesFile("/home/geoff/Development/SOABridge.org/breeze/src/main/java/org/soabridge/breeze/config/breeze.properties");
+
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(propertiesFile));
+        String versionNumber = properties.getProperty("VersionNumber");
+        this.preProcessors = properties.getProperty("Pre-Processors");
+        this.postProcessors = properties.getProperty("Post-Processors");
+        String hiveName = properties.getProperty("HiveName");
+    }
+
+
+     /* The getPreProcessor() method will return the Pre-Processor class names
+      * which have been pulled from the properties file and will be separated
+      * into an array for holding the names of the classes which will then be
+      * returned to the caller as an array of Classes. */
+
+     @Override
     public Class[] getPreProcessor() {
-//db-statements begin  -- remove before flight!
-//        System.out.println("in getPreProcessor()");
-//        System.out.println("PreProcessor String: "+ this.preProcessors);
-//db-statements end  -- remove before flight!
-
+        //assign a temp string to the retrieved string of properties from the properties file
         String temp = this.preProcessors;
-        String[] preProcessClasses = temp.split(",");
-//        for (String strings : preProcessClasses) System.out.println("Parts:"+strings.trim()+":");
 
-        return new Class[0];
+        //separate the strings separated by the comma delimiter
+        String[] preProcessClasses = temp.split(",");
+
+        /* set up the Class array to the length of the number of classes that are
+        defined in the properties file */
+        Class[] processors = new Class[preProcessClasses.length];
+
+        /*create the class objects to return in the processors array.
+         the trim method will remove spaces in the front and back of
+         the processor classes in the properties file.*/
+        try {
+            for (int i = 0; i < preProcessClasses.length; i++)
+                processors[i] = Class.forName(preProcessClasses[i].trim());
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        return  processors;
+
     }
 
     @Override
     public Class[] getPostProcessor() {
-//db-statements begin  -- remove before flight!
-//        System.out.println("in getPostProcessor()");
-//        System.out.println("PostProcessor String: "+ this.preProcessors);
-//db-statements end  -- remove before flight!
-
+        //assign a temp string to the retrieved string of properties from the properties file
         String temp = this.postProcessors;
+
+        //separate the strings separated by the comma delimiter
         String[] postProcessClasses = temp.split(",");
-        ArrayList al = new ArrayList();
+
+       /* set up the Class array to the length of the number of classes that are
+        defined in the properties file */
+        Class[] processors = new Class[postProcessClasses.length];
 
 
-        for (int i = 0; i < postProcessClasses.length; i++)
+         /*create the class objects to return in the processors array.
+         the trim method will remove spaces in the front and back of
+         the processor classes in the properties file.*/
 
-            try {
-                al.add(Class.forName(postProcessClasses[i].trim()));
-            } catch (ClassNotFoundException e) {
-                System.out.println("Class was not found: " + postProcessClasses[i]);
+        try {
+            for (int i = 0; i < postProcessClasses.length; i++)
+                processors[i] = Class.forName(postProcessClasses[i].trim());
+        } catch (ClassNotFoundException e) {
+                System.out.println(e);
             }
-
-        return new Class[0];
+        return  processors;
 
     }
 
+
+    //This is a place holder for implementation later
     @Override
     public Class[] getService() {
-//db-statements -- remove before flight!
+
         System.out.println("in getService()");
 
         return new Class[0];
     }
 
+
+    //This is a place holder for implementation later
     @Override
     public Class[] getConnectors() {
-//db-statements -- remove before flight!
         System.out.println("in getConnectors()");
 
         return new Class[0];
