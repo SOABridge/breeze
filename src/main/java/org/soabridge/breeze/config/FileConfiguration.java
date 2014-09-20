@@ -27,23 +27,28 @@ public class FileConfiguration implements Configuration {
     public String preProcessors  = null;
     public String postProcessors = null;
     public File propertiesFile = null;
+    public String hiveName ;
+    public String versionNumber ;
 
 
-    protected File getPropertiesFile(String fileName){
-        this.propertiesFile = new File(fileName);
-        return propertiesFile;
+    public FileConfiguration(String configName) {
+         this(new File(configName));
+
+
+
     }
 
+    public FileConfiguration(File config) {
+         this.propertiesFile = config;
 
+    }
 
-      /*
+         /*
        * reload() method will reload the configuration properties from the
        * properties file.  The file must be located in the application directory
        * and the classes for pre/post-processors must also be in the same path  */
 
     public void reload() throws IOException, FileSystemNotFoundException {
-
-        getPropertiesFile("/home/geoff/Development/SOABridge.org/breeze/src/main/java/org/soabridge/breeze/config/breeze.properties");
 
         Properties properties = new Properties();
         properties.load(new FileInputStream(propertiesFile));
@@ -51,6 +56,8 @@ public class FileConfiguration implements Configuration {
         this.preProcessors = properties.getProperty("Pre-Processors");
         this.postProcessors = properties.getProperty("Post-Processors");
         String hiveName = properties.getProperty("HiveName");
+        this.versionNumber = properties.getProperty("VersionNumber");
+        this.hiveName = properties.getProperty("HiveName");
     }
 
 
@@ -62,7 +69,16 @@ public class FileConfiguration implements Configuration {
      @Override
     public Class[] getPreProcessor() {
         //assign a temp string to the retrieved string of properties from the properties file
-        String temp = this.preProcessors;
+
+
+         if (this.preProcessors == null) {
+             try {
+                 this.reload();
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+         }
+         String temp = this.preProcessors;
 
         //separate the strings separated by the comma delimiter
         String[] preProcessClasses = temp.split(",");
@@ -86,6 +102,14 @@ public class FileConfiguration implements Configuration {
 
     @Override
     public Class[] getPostProcessor() {
+
+        if (this.preProcessors == null) {
+            try {
+                this.reload();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         //assign a temp string to the retrieved string of properties from the properties file
         String temp = this.postProcessors;
 
@@ -130,5 +154,13 @@ public class FileConfiguration implements Configuration {
         return new Class[0];
     }
 
+
+     public String getHiveName(){
+         return this.hiveName;
+     }
+
+    public String getVersionNumber(){
+        return this.versionNumber;
+    }
 
 }
