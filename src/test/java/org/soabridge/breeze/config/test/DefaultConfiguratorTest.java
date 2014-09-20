@@ -24,8 +24,6 @@ public class DefaultConfiguratorTest {
 //    String testFile = "breeze.config";
 
 
-
-
     @Test
     public void testGetPreProcessor() throws Exception {
         FileConfiguration fc = new FileConfiguration(testFile);
@@ -36,10 +34,10 @@ public class DefaultConfiguratorTest {
         // Check that reference Class array and results Class array have same length
         assertEquals("The reference and resulting array must be same length", reference.length, results.length);
         // Check that elements in reference Class array are the same as in results Class array
-        for (int i=0; i<reference.length; i++)
+        for (int i = 0; i < reference.length; i++)
             assertEquals("The reference and resulting array must have the same names", reference[i], results[i]);
         // Check that elements in reference Class array are the same class as in results Class array
-        for (int i=0; i<reference.length; i++)
+        for (int i = 0; i < reference.length; i++)
             assertEquals("The reference and resulting array must have the same names", reference[i].getClass(), results[i].getClass());
     }
 
@@ -54,10 +52,10 @@ public class DefaultConfiguratorTest {
         // Check that reference Class array and results Class array have same length
         assertEquals("The reference and resulting array must be same length", reference.length, results.length);
         // Check that elements in reference Class array are the same as in results Class array
-        for (int i=0; i<reference.length; i++)
+        for (int i = 0; i < reference.length; i++)
             assertEquals("", reference[i], results[i]);
         // Check that elements in reference Class array are the same class as in results Class array
-        for (int i=0; i<reference.length; i++)
+        for (int i = 0; i < reference.length; i++)
             assertEquals("The reference and resulting array must have the same names", reference[i].getClass(), results[i].getClass());
     }
 
@@ -66,5 +64,25 @@ public class DefaultConfiguratorTest {
         //this.testFile = new File();
         FileInputStream fs = new FileInputStream(testFile);
         assertNotNull("The File is not supposed to be null", fs);
+    }
+
+    @Test
+    public void testgetVersionNumber() throws Exception {
+        FileConfiguration fc = new FileConfiguration(testFile);
+        fc.reload();
+        String versionNumber = fc.getVersionNumber();
+        //test that the h is not null
+        assertNotNull("The version number can not be null.", versionNumber);
+
+    }
+
+    @Test
+    public void testgetHiveName() throws Exception {
+        FileConfiguration fc = new FileConfiguration(testFile);
+        fc.reload();
+        String versionNumber = fc.getHiveName();
+        //test that the hiveName is not null
+        assertNotNull("The hive name  can not be null.", fc.hiveName );
+
     }
 }
