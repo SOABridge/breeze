@@ -1,8 +1,7 @@
-package org.soabridge.breeze.connector;
+package org.soabridge.breeze.comm;
 
 import org.soabridge.breeze.messaging.Message;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -10,16 +9,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author <a href="steffen.krause@soabridge.com">Steffen Krause</a>
  * @since 1.0
  */
-public class ConnectorWorker implements Runnable {
+public class EndpointWorker implements Runnable {
 
-    private final Connector connector;
+    private final Endpoint endpoint;
     private final ConcurrentLinkedQueue<Message> msgQueue;
 
-    public ConnectorWorker(Connector connector) {
-        // Check if connector was NULL, throw exception if it was NULL
-        Objects.requireNonNull(connector, "Connector must not be NULL");
-        // Assign connector and initialize rest of class
-        this.connector = connector;
+    public EndpointWorker(Endpoint endpoint) {
+        // Check if Endpoint was NULL, throw exception if it was NULL
+        Objects.requireNonNull(endpoint, "Endpoint must not be NULL");
+        // Assign Endpoint and initialize rest of class
+        this.endpoint = endpoint;
         this.msgQueue = new ConcurrentLinkedQueue<Message>();
     }
 
@@ -35,11 +34,11 @@ public class ConnectorWorker implements Runnable {
     }
 
     /**
-     * Returns the Connector Object for this Worker Class.
-     * @return Underlying Connector Object.
+     * Returns the Endpoint Object for this Worker Class.
+     * @return Underlying Endpoint Object.
      */
-    public Connector getConnector() {
-        return connector;
+    public Endpoint getEndpoint() {
+        return endpoint;
     }
 
     /**
@@ -61,17 +60,17 @@ public class ConnectorWorker implements Runnable {
                 // Retrieve message from queue, validate it (right now only checking for NotNull), and deliver it
                 Message msg = msgQueue.poll();
                 if (msg != null) {
-                    connector.deliver(msg);
+                    endpoint.deliver(msg);
                 }
             }
         }
         catch (InterruptedException e) {
             // Not sure if I need to do anything with this exception. For now I leave the catch block empty.
-            // Discussion: If the Connector is shut down before all messages of the queue are processed should
+            // Discussion: If the Endpoint is shut down before all messages of the queue are processed should
             //             the remaining messages in the queue be erased or dumped for later delivery?
         }
         finally {
-            // TODO : Come up with mechanism to save or discard messages still in the queue.
+            // TODO: Come up with mechanism to save or discard messages still in the queue.
         }
     }
 

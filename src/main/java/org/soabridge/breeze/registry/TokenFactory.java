@@ -1,6 +1,6 @@
 package org.soabridge.breeze.registry;
 
-import org.soabridge.breeze.connector.Connector;
+import org.soabridge.breeze.comm.Endpoint;
 
 /**
  * @author <a href="steffen.krause@soabridge.com">Steffen Krause</a>
@@ -8,8 +8,8 @@ import org.soabridge.breeze.connector.Connector;
  */
 public class TokenFactory {
 
-    public static Token<Connector> generateConnectorToken() {
-        return new DefaultToken<Connector>(Connector.class);
+    public static Token<Endpoint> generateEndpointToken() {
+        return new DefaultToken<Endpoint>(Endpoint.class);
     }
 
 }

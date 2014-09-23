@@ -1,7 +1,7 @@
 package org.soabridge.breeze;
 
-import org.soabridge.breeze.connector.Connector;
-import org.soabridge.breeze.connector.ConnectorWorker;
+import org.soabridge.breeze.comm.Endpoint;
+import org.soabridge.breeze.comm.EndpointWorker;
 import org.soabridge.breeze.registry.Token;
 import org.soabridge.breeze.registry.TokenFactory;
 
@@ -16,45 +16,45 @@ import java.util.concurrent.Executors;
  */
 public final class Hive {
 
-    private final ExecutorService poolConnectors;
+    private final ExecutorService poolEndpoint;
 
-    private final HashMap<Token,ConnectorWorker> regConnectors;
+    private final HashMap<Token,EndpointWorker> regEndpoints;
 
     public Hive() {
         // TODO: Make ThreadPool size configurable
-        poolConnectors = Executors.newFixedThreadPool(50);
+        poolEndpoint = Executors.newFixedThreadPool(50);
 
-        regConnectors = new HashMap<>();
+        regEndpoints = new HashMap<>();
     }
 
     /**
      *
-     * @param connector
+     * @param endpoint
      * @return
      */
-    public Token<Connector> registerConnector(Connector connector) {
-        return registerConnector(null, connector);
+    public Token<Endpoint> registerEndpoint(Endpoint endpoint) {
+        return registerEndpoint(null, endpoint);
     }
 
     /**
      *
      * @param token
-     * @param connector
+     * @param endpoint
      * @return
      */
-    public Token<Connector> registerConnector(Token<Connector> token, Connector connector) {
-        // Check if connector is NULL, throw NullPointer if so.
-        Objects.requireNonNull(connector, "NULL cannot be registered as Connector!");
+    public Token<Endpoint> registerEndpoint(Token<Endpoint> token, Endpoint endpoint) {
+        // Check if Endpoint is NULL, throw NullPointer if so.
+        Objects.requireNonNull(endpoint, "NULL cannot be registered as Endpoint!");
         // Check if the provided Token was Null, if so generate a new one
-        Token<Connector> regToken = (token != null)? token : TokenFactory.generateConnectorToken();
+        Token<Endpoint> regToken = (token != null)? token : TokenFactory.generateEndpointToken();
         // If Token not already registered...
-        if(!regConnectors.containsKey(regToken)) {
-            // ...create new Worker for Connector
-            ConnectorWorker worker = new ConnectorWorker(connector);
+        if(!regEndpoints.containsKey(regToken)) {
+            // ...create new Worker for Endpoint
+            EndpointWorker worker = new EndpointWorker(endpoint);
             // ...hand it over for execution to the ThreadPool
-            poolConnectors.execute(worker);
-            // ...register Worker in Connector Registry
-            regConnectors.put(regToken, worker);
+            poolEndpoint.execute(worker);
+            // ...register Worker in Endpoint Registry
+            regEndpoints.put(regToken, worker);
             return regToken;
         }
         // Otherwise return NULL indicating that the token is already registered.
@@ -67,18 +67,18 @@ public final class Hive {
      * @param token
      * @return
      */
-    public Connector unregisterConnector(Token<Connector> token) {
+    public Endpoint unregisterEndpoint(Token<Endpoint> token) {
         // Return NULL if the provided token was null
         if (token == null)
             return null;
         // If the Token is currently registered...
-        if (regConnectors.containsKey(token)) {
+        if (regEndpoints.containsKey(token)) {
             // ...remove the Token and corresponding Worker from the Registry
-            ConnectorWorker worker = regConnectors.remove(token);
+            EndpointWorker worker = regEndpoints.remove(token);
             // ...schedule the Worker for Termination
             worker.terminate();
-            //...return the Connector Object of the Worker
-            return worker.getConnector();
+            //...return the Endpoint Object of the Worker
+            return worker.getEndpoint();
         }
         // Otherwise return NULL if the provided Token was not found in Registry
         else
