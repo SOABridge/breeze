@@ -8,9 +8,6 @@ import java.util.Properties;
 
 
 /*
- * @author <a href="geoff.dalelio@soabridge.com" >Geoff d'Alelio</a> 
- * @since 1.0 
- *
  * FileConfiguration will use a properties file to provide:
  *      - PreProcessor Classes
  *      - PostProcessor Classes
@@ -18,17 +15,21 @@ import java.util.Properties;
  *
  *      PreProcessors will be added into an array of Classes for the Hive
  *      PostProcessors will be added into an array of Classes for the Hive
+ *
+ * @author <a href="geoff.dalelio@soabridge.com" >Geoff d'Alelio</a>
+ * @since 1.0 
+ *
  */
 
 
 public class FileConfiguration implements Configuration {
 
+    protected String preProcessors  = null;
+    protected String postProcessors = null;
+    protected File propertiesFile = null;
+    public static  String HIVE_NAME  = "HiveName";              //Holds Hive Name
+    public static  String VERSION_NUMBER = "VersionNumber" ;    //Holds version number
 
-    public String preProcessors  = null;
-    public String postProcessors = null;
-    public File propertiesFile = null;
-    public String hiveName ;
-    public String versionNumber ;
 
 
     public FileConfiguration(String configName) {
@@ -40,9 +41,13 @@ public class FileConfiguration implements Configuration {
 
     public FileConfiguration(File config) {
          this.propertiesFile = config;
+        try {
+            reload();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
-
          /*
        * reload() method will reload the configuration properties from the
        * properties file.  The file must be located in the application directory
@@ -52,12 +57,10 @@ public class FileConfiguration implements Configuration {
 
         Properties properties = new Properties();
         properties.load(new FileInputStream(propertiesFile));
-        String versionNumber = properties.getProperty("VersionNumber");
         this.preProcessors = properties.getProperty("Pre-Processors");
         this.postProcessors = properties.getProperty("Post-Processors");
-        String hiveName = properties.getProperty("HiveName");
-        this.versionNumber = properties.getProperty("VersionNumber");
-        this.hiveName = properties.getProperty("HiveName");
+        VERSION_NUMBER = properties.getProperty("VersionNumber");
+        HIVE_NAME = properties.getProperty("HiveName");
     }
 
 
@@ -69,8 +72,6 @@ public class FileConfiguration implements Configuration {
      @Override
     public Class[] getPreProcessor() {
         //assign a temp string to the retrieved string of properties from the properties file
-
-
          if (this.preProcessors == null) {
              try {
                  this.reload();
@@ -156,11 +157,11 @@ public class FileConfiguration implements Configuration {
 
 
      public String getHiveName(){
-         return this.hiveName;
+         return this.HIVE_NAME;
      }
 
     public String getVersionNumber(){
-        return this.versionNumber;
+        return this.VERSION_NUMBER;
     }
 
 }

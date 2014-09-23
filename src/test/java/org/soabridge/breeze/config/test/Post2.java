@@ -1,9 +1,9 @@
 package org.soabridge.breeze.config.test;
 /*
- * @author <a href="geoff.dalelio@soabridge.com" >Geoff d'Alelio</a> 
- * @since 1.0 
  * This is to test the DefaultConfigurator and FileConfiguration process from.
- * - do  not add to git
+ *
+ * @author <a href="geoff.dalelio@soabridge.com" >Geoff d'Alelio</a>
+ * @since 1.0 
  */
 
 public class Post2 {
