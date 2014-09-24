@@ -71,8 +71,8 @@ public class DefaultConfiguratorTest {
         FileConfiguration fc = new FileConfiguration(testFile);
         fc.reload();
         String versionNumber = fc.getVersionNumber();
-        //test that the h is not null
-        assertNotNull("The version number can not be null.", fc.VERSION_NUMBER);
+        //test that the version number is not null
+        assertNotNull("The version number can not be null.", fc.PROP_VERSION_NUMBER);
 
     }
 
@@ -80,9 +80,9 @@ public class DefaultConfiguratorTest {
     public void testgetHiveName() throws Exception {
         FileConfiguration fc = new FileConfiguration(testFile);
         fc.reload();
-        String versionNumber = fc.getHiveName();
+        String hiveName = fc.getHiveName();
         //test that the hiveName is not null
-        assertNotNull("The hive name  can not be null.", fc.HIVE_NAME );
+        assertNotNull("The hive name  can not be null.", fc.getHiveName() );
 
     }
 }

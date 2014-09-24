@@ -24,11 +24,24 @@ import java.util.Properties;
 
 public class FileConfiguration implements Configuration {
 
+    //Configuration Constants
+    public static final String PROP_PRE_PROCESSORS = "Pre-Processors";
+    public static final String PROP_POST_PROCESSORS = "Post-Processors";
+
+    /*  These will be used later for Connectors and Services - if pulled from Properties File
+    public static final String PROP_CONNECTORS = "Connectors";
+    public static final String PROP_SERVICES = "Services";
+    */
+    public static  final String PROP_HIVE_NAME  = "HiveName";
+    public static  final String PROP_VERSION_NUMBER = "VersionNumber" ;
+
+
     protected String preProcessors  = null;
     protected String postProcessors = null;
+    protected String hiveName = null;
+    protected String versionNumber = null;
     protected File propertiesFile = null;
-    public static  String HIVE_NAME  = "HiveName";              //Holds Hive Name
-    public static  String VERSION_NUMBER = "VersionNumber" ;    //Holds version number
+    private Properties properties = new Properties();
 
 
 
@@ -55,12 +68,11 @@ public class FileConfiguration implements Configuration {
 
     public void reload() throws IOException, FileSystemNotFoundException {
 
-        Properties properties = new Properties();
         properties.load(new FileInputStream(propertiesFile));
-        this.preProcessors = properties.getProperty("Pre-Processors");
-        this.postProcessors = properties.getProperty("Post-Processors");
-        VERSION_NUMBER = properties.getProperty("VersionNumber");
-        HIVE_NAME = properties.getProperty("HiveName");
+        this.preProcessors  = properties.getProperty(PROP_PRE_PROCESSORS);
+        this.postProcessors = properties.getProperty(PROP_POST_PROCESSORS);
+        this.versionNumber  = properties.getProperty(PROP_VERSION_NUMBER);
+        this.hiveName       = properties.getProperty(PROP_HIVE_NAME);
     }
 
 
@@ -157,11 +169,11 @@ public class FileConfiguration implements Configuration {
 
 
      public String getHiveName(){
-         return this.HIVE_NAME;
+         return PROP_HIVE_NAME;
      }
 
     public String getVersionNumber(){
-        return this.VERSION_NUMBER;
+        return PROP_VERSION_NUMBER;
     }
 
 }
