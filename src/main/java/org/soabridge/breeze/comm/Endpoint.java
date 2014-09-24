@@ -8,6 +8,6 @@ import org.soabridge.breeze.messaging.Message;
  */
 public interface Endpoint {
 
-    public void deliver(Message message);
+    void deliver(Message message) throws Throwable;
 
 }

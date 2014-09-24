@@ -2,11 +2,11 @@ package org.soabridge.breeze;
 
 import org.soabridge.breeze.comm.Endpoint;
 import org.soabridge.breeze.comm.EndpointWorker;
+import org.soabridge.breeze.registry.RegistrationException;
 import org.soabridge.breeze.registry.Token;
 import org.soabridge.breeze.registry.TokenFactory;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,7 +24,7 @@ public final class Hive {
         // TODO: Make ThreadPool size configurable
         poolEndpoint = Executors.newFixedThreadPool(50);
 
-        regEndpoints = new HashMap<>();
+        regEndpoints = new HashMap<Token, EndpointWorker>();
     }
 
     /**
@@ -32,7 +32,7 @@ public final class Hive {
      * @param endpoint
      * @return
      */
-    public Token<Endpoint> registerEndpoint(Endpoint endpoint) {
+    public Token<Endpoint> registerEndpoint(Endpoint endpoint) throws RegistrationException {
         return registerEndpoint(null, endpoint);
     }
 
@@ -42,9 +42,10 @@ public final class Hive {
      * @param endpoint
      * @return
      */
-    public Token<Endpoint> registerEndpoint(Token<Endpoint> token, Endpoint endpoint) {
-        // Check if Endpoint is NULL, throw NullPointer if so.
-        Objects.requireNonNull(endpoint, "NULL cannot be registered as Endpoint!");
+    public Token<Endpoint> registerEndpoint(Token<Endpoint> token, Endpoint endpoint) throws RegistrationException {
+        // Check if provided Endpoint is NULL
+        if (endpoint == null)
+            throw new RegistrationException("Invalid Endpoint Token: NULL");
         // Check if the provided Token was Null, if so generate a new one
         Token<Endpoint> regToken = (token != null)? token : TokenFactory.generateEndpointToken();
         // If Token not already registered...
@@ -59,7 +60,7 @@ public final class Hive {
         }
         // Otherwise return NULL indicating that the token is already registered.
         else
-            return null;
+            throw new RegistrationException("Duplicate registration Token");
     }
 
     /**
@@ -67,10 +68,10 @@ public final class Hive {
      * @param token
      * @return
      */
-    public Endpoint unregisterEndpoint(Token<Endpoint> token) {
-        // Return NULL if the provided token was null
+    public Endpoint unregisterEndpoint(Token<Endpoint> token) throws RegistrationException {
+        // Check if the provided token is NULL
         if (token == null)
-            return null;
+            throw new RegistrationException("Invalid registration Token: NULL");
         // If the Token is currently registered...
         if (regEndpoints.containsKey(token)) {
             // ...remove the Token and corresponding Worker from the Registry
