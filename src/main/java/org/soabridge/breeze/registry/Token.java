@@ -13,6 +13,8 @@ public interface Token<T> {
 
     Date getIssueDate();
 
+    Class getImplementation();
+
     Class<T> getType();
 
 }

@@ -47,7 +47,7 @@ public final class Hive {
         if (endpoint == null)
             throw new RegistrationException("Invalid Endpoint Token: NULL");
         // Check if the provided Token was Null, if so generate a new one
-        Token<Endpoint> regToken = (token != null)? token : TokenFactory.generateEndpointToken();
+        Token<Endpoint> regToken = (token != null)? token : TokenFactory.generateEndpointToken(endpoint.getClass());
         // If Token not already registered...
         if(!regEndpoints.containsKey(regToken)) {
             // ...create new Worker for Endpoint

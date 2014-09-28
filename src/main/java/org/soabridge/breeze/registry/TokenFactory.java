@@ -8,8 +8,8 @@ import org.soabridge.breeze.comm.Endpoint;
  */
 public class TokenFactory {
 
-    public static Token<Endpoint> generateEndpointToken() {
-        return new DefaultToken<Endpoint>(Endpoint.class);
+    public static Token<Endpoint> generateEndpointToken(Class impl) {
+        return new DefaultToken<>(impl, Endpoint.class);
     }
 
 }
