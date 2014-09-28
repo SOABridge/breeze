@@ -169,11 +169,11 @@ public class FileConfiguration implements Configuration {
 
 
      public String getHiveName(){
-         return PROP_HIVE_NAME;
+         return this.hiveName;
      }
 
     public String getVersionNumber(){
-        return PROP_VERSION_NUMBER;
+        return this.versionNumber;
     }
 
 }

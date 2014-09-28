@@ -72,7 +72,7 @@ public class DefaultConfiguratorTest {
         fc.reload();
         String versionNumber = fc.getVersionNumber();
         //test that the version number is not null
-        assertNotNull("The version number can not be null.", fc.PROP_VERSION_NUMBER);
+        assertNotNull("The version number can not be null.", versionNumber);
 
     }
 
@@ -82,7 +82,7 @@ public class DefaultConfiguratorTest {
         fc.reload();
         String hiveName = fc.getHiveName();
         //test that the hiveName is not null
-        assertNotNull("The hive name  can not be null.", fc.getHiveName() );
+        assertNotNull("The hive name  can not be null.", hiveName );
 
     }
 }
