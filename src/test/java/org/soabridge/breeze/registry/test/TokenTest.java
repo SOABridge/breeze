@@ -26,6 +26,7 @@ public class TokenTest {
         assertThat("Token must be equal token with same values!", token1, equalTo(token3));
     }
 
+    @Test
     public void testHashcode() {
         Token<Endpoint> token1 = TokenFactory.generateEndpointToken(SampleEndpoint.class);
         Token<Endpoint> token2 = TokenFactory.generateEndpointToken(SampleEndpoint.class);
