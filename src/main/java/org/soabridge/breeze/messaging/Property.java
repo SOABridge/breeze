@@ -43,6 +43,7 @@ public class Property {
      */
     public enum Session
     {
-        ACTION_PIPELINES
+        ACTION_PIPELINES,
+        CURRENT_PIPELINE
     }
 }

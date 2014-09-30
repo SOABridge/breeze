@@ -1,7 +1,7 @@
 package org.soabridge.breeze.messaging;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Defines action pipeline configuration
@@ -11,6 +11,12 @@ import java.util.Set;
  */
 public interface ActionPipelineConfiguration extends Serializable {
 
-    public Set<String> getPipeline();
+    public String getFirstPipeline();
+
+    public String getLastPipeline();
+
+    public String getNextPipeline(String currentPipeline);
+
+    public List<String> getPipeline();
 
 }
