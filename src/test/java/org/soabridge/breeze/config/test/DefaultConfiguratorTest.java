@@ -5,6 +5,7 @@ import org.soabridge.breeze.config.FileConfiguration;
 
 import java.io.FileInputStream;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -15,13 +16,13 @@ public class DefaultConfiguratorTest {
 *           will allow us to pull the full path for the test file from the resource directory that it is currently
 *           being held in.
 *
-*           TESTING THIS CODE REQQUIRES YOU YOU CHANGE THE FILE PATH FOR THE testFile variable below
+*           TESTING THIS CODE REQUIRES YOU TO PLACE THE BREEZE.CONFIG FILE IN THE SAME FOLDER AS YOUR pom.xml file
 *
 * */
 
 
-    String testFile = "/Volumes/BigDisk/Development/SOABridge.org/breeze/src/test/java/org/soabridge/breeze/config/test/breeze.config";
-//    String testFile = "breeze.config";
+
+    String testFile = "breeze.config";
 
 
     @Test
@@ -34,12 +35,8 @@ public class DefaultConfiguratorTest {
         // Check that reference Class array and results Class array have same length
         assertEquals("The reference and resulting array must be same length", reference.length, results.length);
         // Check that elements in reference Class array are the same as in results Class array
-        for (int i = 0; i < reference.length; i++)
-            assertEquals("The reference and resulting array must have the same names", reference[i], results[i]);
-        // Check that elements in reference Class array are the same class as in results Class array
-        for (int i = 0; i < reference.length; i++)
-            assertEquals("The reference and resulting array must have the same names", reference[i].getClass(), results[i].getClass());
-    }
+        assertArrayEquals(reference, results);
+   }
 
 
     @Test
@@ -52,11 +49,7 @@ public class DefaultConfiguratorTest {
         // Check that reference Class array and results Class array have same length
         assertEquals("The reference and resulting array must be same length", reference.length, results.length);
         // Check that elements in reference Class array are the same as in results Class array
-        for (int i = 0; i < reference.length; i++)
-            assertEquals("", reference[i], results[i]);
-        // Check that elements in reference Class array are the same class as in results Class array
-        for (int i = 0; i < reference.length; i++)
-            assertEquals("The reference and resulting array must have the same names", reference[i].getClass(), results[i].getClass());
+        assertArrayEquals(reference, results);
     }
 
     @Test
