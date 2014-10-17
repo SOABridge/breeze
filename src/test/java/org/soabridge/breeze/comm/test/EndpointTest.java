@@ -43,6 +43,8 @@ public class EndpointTest {
 
         ExecutorService pool = Executors.newSingleThreadExecutor();
         pool.execute(worker);
+        // Give ExecutorService 500ms to start executing Worker
+        TimeUnit.MILLISECONDS.sleep(500);
         assertThat("Worker must be RUNNING after being scheduled for execution!",
                 worker.getStatus(), equalTo(EndpointWorker.WorkerStatus.RUNNING));
 
