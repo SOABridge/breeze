@@ -30,6 +30,8 @@ public class ProcessorChainWorker implements Runnable {
             ProcessorHandler handler = new ProcessorHandler(processes);
 
             // TODO: Tell ProcessorHandler to process Message
+            //     * ProcessorHandler needs to be changed to accept Dockets (once created) containing messages
+            //       rather than a Message object itself.
             Message result = handler.process(message);
 
             // TODO: Handle processing output
